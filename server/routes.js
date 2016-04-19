@@ -23,10 +23,17 @@ module.exports = function (app, express) {
   app.post('/api/users/profile', helpers.decode, multipartMiddleware, userController.saveProfile);
   app.put('/api/tutor/addLike', helpers.decode, userController.addLike);
 
+  app.get('/api/tutorlist', helpers.decode, userController.getTutorList);
+  app.get('/api/studentlist', helpers.decode, userController.getStudentList);
+
+  app.put('api/tutorlist', helpers.decode, userController.addTutorToList);
+  app.put('api/studentlist', helpers.decode, userController.addStudentToList);
+
+
   app.get('/*', function(req, res) {
     res.sendFile(rootPath + '/client/index.html');
   });
-  
+
   // If a request is sent somewhere other than the routes above,
   // send it through our custom error handler
   app.use(helpers.errorLogger);

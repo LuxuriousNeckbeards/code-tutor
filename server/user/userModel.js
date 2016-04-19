@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var Q = require('q');
-var SALT_WORK_FACTOR = 10; 
+var SALT_WORK_FACTOR = 10;
 
 var userSchema = new mongoose.Schema({
   username: {type: String, required: true, unique: true},
@@ -15,7 +15,9 @@ var userSchema = new mongoose.Schema({
   bio: String,
   subjects: Array,
   imageId: String, //a ref to the image file stored by gridfs
-  likers: Array
+  likers: Array,
+  students: Array,
+  tutors: Array,
 });
 
 

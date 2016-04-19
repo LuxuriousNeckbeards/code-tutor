@@ -51,6 +51,12 @@
       .when('/about', {
         templateUrl: 'app/about/about.html'
       })
+      .when('/tutorlist', {
+        template: 'Hello World'
+      })
+      .when('/studentlist', {
+        template: 'Hello World'
+      })
       .otherwise({
         redirectTo: '/'
       });

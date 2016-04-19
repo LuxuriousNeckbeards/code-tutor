@@ -22,18 +22,18 @@ module.exports = {
   //temporary testing controller
   getAllTutors: function(req, res, nex) {
     User.find({isTutor: true}, function(err, users) {
-      res.send(users);  
+      res.send(users);
     });
   },
 
   // return a tutor's profile
   findTutor: function(req, res, nex) {
-    findUser({username: req.params.username, isTutor: true})
+    findUser({username: req.params.username})
       .then(function(tutor) {
         if (!tutor) {
           next( new Error('Invalid tutor'));
         } else {
-          res.send(tutor); 
+          res.send(tutor);
         }
       });
   },
@@ -45,7 +45,7 @@ module.exports = {
 
     var requirements = {
       isTutor: true,
-    }; 
+    };
 
     if (subjectsArr) { requirements.subjects = {$in: subjectsArr}; }
     if (city) { requirements['location.city'] = city; }
@@ -106,7 +106,7 @@ module.exports = {
 
   // get profile images
   getImg: function(req, res, next) {
-    
+
     var options = {
       _id: req.params.objectId
     };
@@ -126,10 +126,10 @@ module.exports = {
   },
 
   signin: function (req, res, next) {
-    var email = req.body.email;
+    var username = req.body.username;
     var password = req.body.password;
 
-    findUser({email: email})
+    findUser({username: username})
       .then(function (user) {
         if (!user) {
           next(new Error('User does not exist'));
@@ -151,7 +151,7 @@ module.exports = {
   },
 
   signup: function (req, res, next) {
-    var email = req.body.email;
+    var username = req.body.username;
     var password = req.body.password;
     var username = req.body.username;
     var isTutor = req.body.isTutor;
@@ -159,7 +159,7 @@ module.exports = {
     var subjects = req.body.subjects;
 
     // check to see if user already exists
-    findUser({email: email})
+    findUser({username: username})
       .then(function (user) {
         if (user) {
           next(new Error('User already exist!'));
@@ -207,5 +207,61 @@ module.exports = {
           next(error);
         });
     }
+  },
+
+  getTutorList: function(req, res, next) {
+    findUser({username: req.user.username})
+    .then(function(user) {
+      res.send({allTutors: user.tutors});
+    })
+    .fail(function(error) {
+      next(error);
+    });
+  },
+
+  getStudentList: function(req, res, next) {
+    findUser({username: req.user.username})
+    .then(function(user) {
+      res.send({allStudents: user.students});
+    })
+    .fail(function(error) {
+      next(error);
+    });
+  },
+
+  addTutorToList: function(req, res, next) {
+    findUser({username: req.user.username})
+    .then(function(User) {
+      if (User.tutors.indexOf(req.user.username) === -1 && req.body.username !== req.user.username) {
+        updateUser({username: req.body.username}, { $push: {tutors: req.body.tutorName}}, {new: true}, function(err, doc) {
+          if (err) {
+            console.log("Error adding tutor to list", err);
+          } else {
+            res.send({tutors: doc.tutors});
+          }
+        });
+      }
+    })
+    .fail(function(error) {
+      next(error);
+    });
+  },
+
+  addStudentToList: function(req, res, next) {
+    findUser({username: req.user.username})
+    .then(function(User) {
+      if (User.students.indexOf(req.user.username) === -1 && req.body.username !== req.user.username) {
+        updateUser({username: req.body.username}, { $push: {students: req.body.studentName}}, {new: true}, function(err, doc) {
+          if (err) {
+            console.log("Error adding tutor to list", err);
+          } else {
+            res.send({students: doc.students});
+          }
+        });
+      }
+    })
+    .fail(function(error) {
+      next(error);
+    });
   }
 };

@@ -1,7 +1,7 @@
 
 angular.module('codellama.auth', [])
 
-.controller('AuthController', function($scope, $rootScope, $window, $location, Auth) {
+.controller('AuthController', function($scope, $rootScope, $window, $location, Auth, TutorService) {
 
   $scope.user = {};
 
@@ -24,7 +24,7 @@ angular.module('codellama.auth', [])
           $rootScope.isTutor = false;
         }
 
-        $location.path('/');
+        $location.path('/tutor/' + $scope.user.username);
       })
       .catch(function (error) {
         console.error(error);
@@ -41,7 +41,7 @@ angular.module('codellama.auth', [])
 
         console.log('$rootScope:', $rootScope.loggedIn, $rootScope.isTutor);
 
-        $location.path('/');
+        $location.path('/update');
       })
       .catch(function (error) {
         console.error(error);

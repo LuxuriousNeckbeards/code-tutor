@@ -251,13 +251,13 @@ module.exports = {
     findUser({username: req.user.username})
     .then(function(User) {
       if (User.students.indexOf(req.user.username) === -1 && req.body.username !== req.user.username) {
-        updateUser({username: req.body.username}, { $push: {students: req.body.studentName}}, {new: true}, function(err, doc) {
-          if (err) {
-            console.log("Error adding tutor to list", err);
-          } else {
+        updateUser({username: req.body.username}, { $push: {students: req.body.studentName}}, {new: true})
+          .then(function (doc) {
             res.send({students: doc.students});
-          }
-        });
+          })
+          .fail(function (error) {
+            console.log("Error updating user");
+          });
       }
     })
     .fail(function(error) {

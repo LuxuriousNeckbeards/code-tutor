@@ -8,7 +8,7 @@
 
         <div id="tutor-update-question-container">
           <span class="tutor-update-question">Are you a registered tutor / signing up to be a tutor? <br> Check here if yes... </span><input type="checkbox" class="checkbox checkbox-inline" ng-model="data.isTutor" />
-        </div>  
+        </div>
 
         <div> <!-- start of name-city-bio -->
           <i class="tutor-update-question"></i>
@@ -19,7 +19,7 @@
             <option ng-repeat="city in cities" value={{city}}>{{city}}</option>
           </select>
 
-          <textarea ng-show="data.isTutor" type="textarea" name="bio" class="input-bio pass" ng-model="data.bio" rows="10" cols="50" placeholder="Please tell us about yourself and your experience"></textarea>
+          <textarea type="textarea" name="bio" class="input-bio pass" ng-model="data.bio" rows="10" cols="50" placeholder="Please tell us about yourself and your experience"></textarea>
 
           <div id="tutor-update-subjects">
             <span class="tutor-update-question">Select the subjects you </span>
@@ -31,7 +31,7 @@
           <table>
             <tr ng-repeat="subject in subjects" class="subjects-table-entry">
             <td>
-              <label class="update-subject-item"> 
+              <label class="update-subject-item">
                 <input type="checkbox" class="checkbox checkbox-inline" checklist-model="data.subjects" checklist-value="subject" >
                 <span class="subjects-list"> {{subject}}</span>
               </label>
@@ -49,7 +49,7 @@
           <div id="photo-upload-container">
 
             <div>
-              <input type="file" class="profile-button-update grey" ngf-select ng-model="picFile" name="file"    
+              <input type="file" class="profile-button-update grey" ngf-select ng-model="picFile" name="file"
                  accept="image/*" ngf-max-size="2MB"
                  ngf-model-invalid="errorFile">
             </div>

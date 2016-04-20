@@ -54,7 +54,7 @@ module.exports = {
     .then(function(users) {
       res.status(200).send(users);
     })
-    .catch(function(err) {
+    .fail(function(err) {
       res.status(500);
       console.log ('Error: ', err);
     });
@@ -233,13 +233,13 @@ module.exports = {
     findUser({username: req.user.username})
     .then(function(User) {
       if (User.tutors.indexOf(req.user.username) === -1 && req.body.username !== req.user.username) {
-        updateUser({username: req.body.username}, { $push: {tutors: req.body.tutorName}}, {new: true}, function(err, doc) {
-          if (err) {
+        updateUser({username: req.body.username}, { $push: {tutors: req.body.tutorName}}, {new: true})
+          .then(function(doc) {
+            res.send({ tutors: doc.tutors });
+          })
+          .fail(function(err) {
             console.log("Error adding tutor to list", err);
-          } else {
-            res.send({tutors: doc.tutors});
-          }
-        });
+          })
       }
     })
     .fail(function(error) {

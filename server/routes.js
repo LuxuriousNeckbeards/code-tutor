@@ -1,4 +1,5 @@
 var userController = require('./user/userController.js');
+var messageController = require('./message/messageController.js');
 var helpers = require('./helpers.js'); // our custom middleware
 var path = require('path');
 var multipart = require('connect-multiparty');
@@ -29,6 +30,8 @@ module.exports = function (app, express) {
   app.put('api/tutorlist', helpers.decode, userController.addTutorToList);
   app.put('api/studentlist', helpers.decode, userController.addStudentToList);
 
+  app.put('/api/messages', messageController.addMessage);
+  app.get('/api/messages/:username/:clickedName/:isTutor', messageController.getAllMessages);
 
   app.get('/*', function(req, res) {
     res.sendFile(rootPath + '/client/index.html');

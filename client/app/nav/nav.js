@@ -4,9 +4,9 @@ angular.module('codellama.nav', [])
 
   // adds bootstrap active class if path matches href value
   $scope.isActive = function (viewLocation) {
+    $scope.username = $window.localStorage.getItem('username');
     return viewLocation === $location.path();
   };
 
-  $scope.username = $window.localStorage.getItem('username');
 
 });

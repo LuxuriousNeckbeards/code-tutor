@@ -10,7 +10,7 @@ angular.module('codellama.auth', [])
       .then(function (token) {
 
         $rootScope.loggedIn = true;
-
+        $window.localStorage.setItem('username', $scope.user.username);
         $window.localStorage.setItem('com.codellama', token);
 
         // check if user is a tutor and
@@ -34,6 +34,7 @@ angular.module('codellama.auth', [])
   $scope.signup = function () {
     Auth.signup($scope.user)
       .then(function (token) {
+        $window.localStorage.setItem('username', $scope.user.username);
         $window.localStorage.setItem('com.codellama', token);
         $rootScope.loggedIn = true;
         $window.localStorage.setItem('isTutor', false);

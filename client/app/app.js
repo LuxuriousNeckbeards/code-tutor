@@ -40,10 +40,6 @@
         templateUrl: 'app/profile/update.html',
         controller: 'uploadCtrl'
       })
-      .when('/becometutor', {
-        templateUrl: 'app/profile/becometutor.html',
-        controller: 'uploadCtrl'
-      })
       .when('/users/:username', {
         templateUrl: 'app/tutors/tutor.html',
         controller: 'TutorController'

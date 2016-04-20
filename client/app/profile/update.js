@@ -58,7 +58,7 @@ app.controller('uploadCtrl', ['$scope', 'Upload', '$timeout', '$location', '$win
         $window.localStorage.setItem('isTutor', true);
       }
       // redirect to home
-      $location.path('/');
+      $location.path('/users/' + $window.localStorage.getItem('username'));
 
     }, function (response) {
       if (response.status > 0) {

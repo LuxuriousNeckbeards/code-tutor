@@ -10,18 +10,18 @@ module.exports = function (app, express) {
   app.use(express.static(__dirname + '/../client'));
 
   // temporary path for testing: get all tutors in db
-  app.get('/api/tutor/all', userController.getAllTutors);
-  app.get('/api/tutor/search', userController.search);
-  // app.get('/api/tutor/:username', userController.findTutor);
+  app.get('/api/users/all', userController.getAllTutors);
+  app.get('/api/users/search', userController.search);
+  // app.get('/api/users/:username', userController.findTutor);
 
   app.post('/api/users/signup', userController.signup);
   app.post('/api/users/signin', userController.signin);
 
-  app.get('/api/tutor/:username', userController.findTutor);
+  app.get('/api/users/:username', userController.findTutor);
   app.get('/api/users/img/:objectId', userController.getImg);
 
   app.post('/api/users/profile', helpers.decode, multipartMiddleware, userController.saveProfile);
-  app.put('/api/tutor/addLike', helpers.decode, userController.addLike);
+  app.put('/api/users/addLike', helpers.decode, userController.addLike);
 
   app.get('/api/tutorlist', helpers.decode, userController.getTutorList);
   app.get('/api/studentlist', helpers.decode, userController.getStudentList);

@@ -11,7 +11,7 @@ angular.module('codellama.search', [])
 
       return $http({
         method: 'GET',
-        url: '/api/tutor/search',
+        url: '/api/users/search',
         params: {
           city: city,
           subjects: subjects

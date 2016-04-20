@@ -7,7 +7,7 @@ angular.module('codellama.tutor', [])
     this.getTutorProfile = function(username) {
       return $http({
         method: 'GET',
-        url: '/api/tutor/' + username
+        url: '/api/users/' + username
       })
       .then(function (resp) {
         return resp.data;
@@ -18,7 +18,7 @@ angular.module('codellama.tutor', [])
       return $http({
         method: 'PUT',
         data: {username: username},
-        url: '/api/tutor/addLike'
+        url: '/api/users/addLike'
       })
       .then(function(resp) {
         return resp.data;

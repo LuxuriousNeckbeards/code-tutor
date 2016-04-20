@@ -24,7 +24,7 @@ angular.module('codellama.auth', [])
           $rootScope.isTutor = false;
         }
 
-        $location.path('/tutor/' + $scope.user.username);
+        $location.path('/users/' + $scope.user.username);
       })
       .catch(function (error) {
         console.error(error);

@@ -151,7 +151,7 @@ module.exports = {
   },
 
   signup: function (req, res, next) {
-    var username = req.body.username;
+    var email = req.body.email;
     var password = req.body.password;
     var username = req.body.username;
     var isTutor = req.body.isTutor;

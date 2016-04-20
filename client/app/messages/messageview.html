@@ -1,0 +1,13 @@
+<div class="messages-container" ng-controller="MessagesController as messages">
+
+  <div class="col-lg-4 messages-left">
+    <h3>Messages</h3>
+    <div ng-repeat="obj in data" class="message">
+      <h4>{{obj.user}}</h4>
+      {{obj.recentMessage}}. . .
+    </div>
+  </div>
+
+  <!-- <div ng-view></div> -->
+
+</div>

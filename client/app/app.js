@@ -6,6 +6,7 @@
     'codellama.auth',
     'codellama.fileUpload',
     'codellama.nav',
+    'codellama.messages',
     'ngRoute'])
 
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
@@ -18,7 +19,10 @@
         templateUrl: 'app/search/searchResults.html',
         controller: 'SearchResultsController'
       })
-
+      .when('/messages', {
+        templateUrl: 'app/messages/messageview.html',
+        controller: 'MessagesController'
+      })
       .when('/signup', {
         templateUrl: 'app/auth/signup.html',
         controller: 'AuthController'

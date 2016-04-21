@@ -1,6 +1,6 @@
 angular.module('codellama.messages', [])
 .factory('Conversations', function($http) {
-  var getConversations = function(username, clickedName, isTutor) {
+  var getMessages = function(username, clickedName, isTutor) {
     return $http({
       method: 'GET',
       url: '/api/messages/' + username + '/' + clickedName + '/'  + isTutor,
@@ -24,32 +24,44 @@ angular.module('codellama.messages', [])
     });
   };
 
+  var getConversations = function (listType) {
+    return $http({
+      method: 'GET',
+      url: '/api/' + listType,
+    }).then(function(data) {
+      return data.data;
+    }, function(err) {
+      console.error(err);
+    });
+  };
+
   return {
-    getConversations: getConversations,
+    getMessages: getMessages,
     createMessage: createMessage,
+    getConversations: getConversations,
   };
 })
 .controller('MessagesController', function($scope, $window, $location, $rootScope, Conversations) {
-  $scope.message = 'WHARBLE GARBLE';
-  $scope.data = [{user: 'bill', recentMessage: 'wef wefowf wefoidnqk w ergpow  uh iug g f h oih iu ut ytrd o j n bui uvytcyaiojhuvgyb  iy gftyu uief'},
-                 {user: 'dave', recentMessage: 'taco poop fart butt'},
-                 {user: 'sarah', recentMessage: 'wiubwefwe fwooisna speoq we erhpsj'},
-                 {user: 'vini', recentMessage: 'bush did 9/11'},
-                 {user: 'skye', recentMessage: 'abc 123 do re mi'},
-                 {user: 'rane', recentMessage: 'q vovpg e ebf we e t went toofnvovbpweig'},
-                 {user: 'liam', recentMessage: 'oansdfoigfw we gw eg weg ewg'},
-                 {user: 'chucknorris', recentMessage: 'vvvvv vvv vv vvv vv vvv vv vvv'},
-               ];
-
+  $scope.convoList;
   $scope.chats = [];
   $scope.currentConversation = '';
 
-  $scope.getChats = function() {
+  var init = function() {
+    var isTutor = $window.localStorage.getItem('isTutor');
+    Conversations.getConversations(isTutor ? 'tutorList' : 'studentList')
+      .then(function(data) {
+        if (data.allTutors.length > 0) {
+          $scope.convoList = data;
+        }
+      });
+  };
+
+  $scope.loadConversation = function() {
     var username = $window.localStorage.getItem('username');
-    var clickedName = this.obj.user;
+    var clickedName = this.convo.user;
     var isTutor = $window.localStorage.getItem('isTutor');
     $scope.currentConversation = clickedName;
-    // $scope.chats = Conversations.getConversations(username, clickedName, isTutor);
+    // $scope.chats = Conversations.getMessages(username, clickedName, isTutor);
   };
 
   $scope.send = function() {
@@ -60,11 +72,9 @@ angular.module('codellama.messages', [])
       messageBody: $scope.newMessage,
     };
     if (messageObj.clickedName) {
-      console.log(messageObj);
+      // Conversations.createMessage(JSON.stringify(messageObj));
     }
-
-    // Conversations.createMessage();
     $scope.newMessage = '';
   };
-
+  init();
 });

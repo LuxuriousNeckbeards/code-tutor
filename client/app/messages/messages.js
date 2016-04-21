@@ -43,7 +43,7 @@ angular.module('codellama.messages', [])
     getConversations: getConversations,
   };
 })
-.controller('MessagesController', function($scope, $window, $location, $rootScope, Conversations) {
+.controller('MessagesController', function($scope, $window, Conversations) {
   // $scope.convoList = [{user: 'Rane', recentMessage: 'dyv uh u oi hgyut io iuyf i'},{user: 'Liam', recentMessage: 'df wefwefo84htb 343984fw3 34 '}];
   $scope.chats = [];
   $scope.currentConversation = '';

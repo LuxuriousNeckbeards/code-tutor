@@ -6,6 +6,7 @@
     'codellama.auth',
     'codellama.fileUpload',
     'codellama.nav',
+    'codellama.video',
     'codellama.messages',
     'ngRoute'])
 
@@ -22,6 +23,10 @@
       .when('/messages', {
         templateUrl: 'app/messages/messageview.html',
         controller: 'MessagesController'
+      })
+      .when('/video', {
+        templateUrl: 'app/video-chat/video-chatview.html',
+        controller: 'VideoChatController'
       })
       .when('/signup', {
         templateUrl: 'app/auth/signup.html',

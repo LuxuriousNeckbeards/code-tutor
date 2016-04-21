@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Code Tutor</title>
+    <style type="text/css" media="screen">
+      body {
+        background-color: #81CFE0;
+      }
+
+      .editor-container {
+        padding-left: 100px;
+        padding-right: 100px;
+        margin: 50px;
+      }
+
+      select {
+        margin: 10px;
+      }
+
+      #editor {
+        position: relative;
+        /*width: 650px;*/
+        height: 300px;
+        border: 5px #E4F1FE solid;
+        border-radius: 12px;
+
+        -webkit-box-shadow: 0px 0px 10px 1px rgba(0,0,0,1);
+        -moz-box-shadow: 0px 0px 10px 1px rgba(0,0,0,1);
+        box-shadow: 0px 0px 10px 1px rgba(0,0,0,1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class='editor-container'>
+      <select onchange="changeLanguage(this)">
+        <option value="javascript">JavaScript</option>
+        <option value="ruby">Ruby</option>
+        <option value="python">Python</option>
+        <option value="java">Java</option>
+        <option value="objectivec">Objective-C</option>
+      </select>
+      <div id="editor">var a = 4;
+var b = ['test', 'a', 'b'];
+
+for ( var i = 0; i < b.length; i++ ) {
+  console.log(test);
+}
+
+
+      </div>
+    </div>
+    <script src="ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+
+      function changeLanguage(selector) {
+        editor.getSession().setMode('ace/mode/' + selector.value);
+      }
+
+      var editor = ace.edit("editor");
+      editor.setTheme("ace/theme/monokai");
+      editor.getSession().setMode("ace/mode/javascript");
+      editor.getSession().setUseWrapMode(true);
+      // editor.setValue('// Your code here!');
+    </script>
+  </body>
+</html>

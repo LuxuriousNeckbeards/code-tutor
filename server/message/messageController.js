@@ -47,11 +47,11 @@ module.exports.addMessage = function(req, res, next) {
 
   /* Find Message List for requested username & clicked name: */
   findMessages({
-    tutorName: tutorName, 
+    tutorName: tutorName,
     studentName: studentName
   })
   .then(function (messageRecord) {
-
+    
     /* If username/clicked name pairing does not yet exist, create new message record: */
     if (JSON.stringify(messageRecord) === "[]") {
       return createMessage({
@@ -63,15 +63,15 @@ module.exports.addMessage = function(req, res, next) {
             messageBody: messageBody,
             timestamp: Date.now(),
           }
-        ], 
+        ],
       });
 
     /* Otherwise, push new message to message list record: */
     } else {
         var newMessage = {
-          username: req.body.username, 
-          messageBody: messageBody, 
-          timestamp: Date.now() 
+          username: req.body.username,
+          messageBody: messageBody,
+          timestamp: Date.now()
         };
 
         return updateMessage({

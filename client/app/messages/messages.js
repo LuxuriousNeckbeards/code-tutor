@@ -18,6 +18,8 @@ angular.module('codellama.messages', [])
       url: 'api/messages',
       data: message,
     }).then(function(data){
+      console.log('create message client side response ', data.data);
+
       return data.data;
     }, function(err) {
       console.error(err);
@@ -42,7 +44,7 @@ angular.module('codellama.messages', [])
   };
 })
 .controller('MessagesController', function($scope, $window, $location, $rootScope, Conversations) {
-  $scope.convoList;
+  $scope.convoList = [{user: 'Rane', recentMessage: 'dyv uh u oi hgyut io iuyf i'},{user: 'Liam', recentMessage: 'df wefwefo84htb 343984fw3 34 '}];
   $scope.chats = [];
   $scope.currentConversation = '';
 
@@ -57,11 +59,17 @@ angular.module('codellama.messages', [])
   };
 
   $scope.loadConversation = function() {
+    $scope.chats = undefined;
     var username = $window.localStorage.getItem('username');
     var clickedName = this.convo.user;
     var isTutor = $window.localStorage.getItem('isTutor');
     $scope.currentConversation = clickedName;
-    // $scope.chats = Conversations.getMessages(username, clickedName, isTutor);
+    Conversations.getMessages(username, clickedName, isTutor)
+      .then(function(data) {
+        if (data[0]) {
+          $scope.chats = data[0].messages.reverse();
+        }
+      });
   };
 
   $scope.send = function() {
@@ -71,8 +79,16 @@ angular.module('codellama.messages', [])
       isTutor: $window.localStorage.getItem('isTutor'),
       messageBody: $scope.newMessage,
     };
-    if (messageObj.clickedName) {
-      // Conversations.createMessage(JSON.stringify(messageObj));
+    if (messageObj.clickedName && messageObj.messageBody) {
+      Conversations.createMessage(JSON.stringify(messageObj));
+
+      // TODO: use sockets instead of this
+      Conversations.getMessages(messageObj.username, messageObj.clickedName, messageObj.isTutor)
+      .then(function(data) {
+        if (data[0]) {
+          $scope.chats = data[0].messages.reverse();
+        }
+      });
     }
     $scope.newMessage = '';
   };

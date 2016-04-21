@@ -2,9 +2,9 @@
 
   <div class="col-lg-4 messages-left">
     <h3>Messages</h3>
-    <div ng-repeat="obj in data" class="message" ng-click="getChats()">
-      <h4>{{obj.user}}</h4>
-      {{obj.recentMessage}}. . .
+    <div ng-repeat="convo in convoList" class="message" ng-click="loadConversation()">
+      <h4>{{convo.user}}</h4>
+      {{convo.recentMessage}}. . .
     </div>
   </div>
 

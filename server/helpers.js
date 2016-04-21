@@ -13,6 +13,7 @@ module.exports = {
   },
 
   decode: function (req, res, next) {
+    console.log('WE GOT TO DECODE!', req.body);
     var token = req.headers['x-access-token'];
     var user;
 

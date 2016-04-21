@@ -7,7 +7,7 @@ var multipartMiddleware = multipart();
 
 var rootPath = path.join(__dirname, '..');
 
-module.exports = function (app, express) {
+module.exports = function (app, express, opentok) {
   app.use(express.static(__dirname + '/../client'));
 
   // temporary path for testing: get all tutors in db
@@ -33,6 +33,17 @@ module.exports = function (app, express) {
   app.put('/api/messages', messageController.addMessage);
   app.get('/api/messages/:username/:clickedName/:isTutor', messageController.getAllMessages);
 
+  app.get('/api/videochat', function(req, res) {
+    var sessionId = app.get('sessionId'),
+        token = opentok.generateToken(sessionId);
+
+    res.render('index.ejs', { 
+      apiKey: apiKey, 
+      sessionId: sessionId, 
+      token: token 
+    });
+  });
+
   app.get('/*', function(req, res) {
     res.sendFile(rootPath + '/client/index.html');
   });
@@ -42,4 +53,3 @@ module.exports = function (app, express) {
   app.use(helpers.errorLogger);
   app.use(helpers.errorHandler);
 };
-

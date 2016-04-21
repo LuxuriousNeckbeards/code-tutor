@@ -231,19 +231,40 @@ module.exports = {
 
   addTutorToList: function(req, res, next) {
     findUser({username: req.user.username})
-    .then(function(User) {
-      if (User.tutors.indexOf(req.user.username) === -1 && req.body.username !== req.user.username) {
+    .then(function(user) {
+      if (user.tutors.indexOf(req.body.tutorName) < 0 && req.body.tutorName !== req.user.username) {
         updateUser({username: req.body.username}, { $push: {tutors: req.body.tutorName}}, {new: true})
           .then(function(doc) {
+            module.exports.tempStudentlist(req.body.tutorName, req.user.username);
             res.send({ tutors: doc.tutors });
           })
           .fail(function(err) {
             console.log("Error adding tutor to list", err);
-          })
+            res.status(500).send('Error adding tutor to db');
+          });
+      } else {
+        console.log('Tutor exists error');
+        res.status(500).send('Tutor Exists');
       }
     })
     .fail(function(error) {
+      console.log('Failed error');
       next(error);
+    });
+  },
+
+  tempStudentlist: function(username, studentName) {
+    findUser({username: username})
+    .then(function(user) {
+      if(user.students.indexOf(studentName) < 0 && username !== studentName) {
+        updateUser({username:username}, { $push: {students: studentName}}, {new: true})
+          .then(function(doc) {
+            console.log('Check studests array', doc);
+          })
+          .fail(function(error) {
+            console.log('Error adding studentlist');
+          });
+      }
     });
   },
 

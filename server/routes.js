@@ -27,8 +27,8 @@ module.exports = function (app, express) {
   app.get('/api/tutorlist', helpers.decode, userController.getTutorList);
   app.get('/api/studentlist', helpers.decode, userController.getStudentList);
 
-  app.put('api/tutorlist', helpers.decode, userController.addTutorToList);
-  app.put('api/studentlist', helpers.decode, userController.addStudentToList);
+  app.put('/api/tutorlist', helpers.decode, userController.addTutorToList);
+  app.put('/api/studentlist', helpers.decode, userController.addStudentToList);
 
   app.put('/api/messages', messageController.addMessage);
   app.get('/api/messages/:username/:clickedName/:isTutor', messageController.getAllMessages);

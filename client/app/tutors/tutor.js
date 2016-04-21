@@ -1,7 +1,7 @@
 /* This module handles the tutor's profile view */
 angular.module('codellama.tutor', [])
 
-  .service('TutorService', function($http) {
+  .service('TutorService', function($http, $window) {
     this.tutorData = null;
 
     this.getTutorProfile = function(username) {
@@ -24,13 +24,39 @@ angular.module('codellama.tutor', [])
         return resp.data;
       });
     };
+
+    this.messageTutor = function(tutorName) {
+      var username = $window.localStorage.getItem('username');
+      return $http({
+        method: 'PUT',
+        data: {username: username,
+               tutorName: tutorName},
+        url: '/api/tutorlist'
+      })
+      .then(function(resp) {
+        return resp.data;
+      });
+    };
   })
 
-  .controller('TutorController', function ($scope, TutorService, $routeParams) {
+  .controller('TutorController', function ($scope, TutorService, $routeParams, $location) {
     TutorService.getTutorProfile($routeParams.username)
     .then(function(data) {
       TutorService.tutorData = data;
     });
+
+    $scope.messageTutor = function(tutorName) {
+      TutorService.messageTutor(tutorName)
+      .then(function(resp) {
+        $location.path('/messages');
+      })
+      .catch(function(error) {
+        console.log('Error updating the messageTutor', error);
+        if (error.data === 'Tutor Exists') {
+          $location.path('/messages');
+        }
+      });
+    };
 
     $scope.likeTutor = function(username) {
       TutorService.likeTutor(username)

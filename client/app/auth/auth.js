@@ -7,16 +7,16 @@ angular.module('codellama.auth', [])
 
   $scope.signin = function () {
     Auth.signin($scope.user)
-      .then(function (token) {
+      .then(function (data) {
 
         $rootScope.loggedIn = true;
         $window.localStorage.setItem('username', $scope.user.username);
-        $window.localStorage.setItem('com.codellama', token);
+        $window.localStorage.setItem('com.codellama', data.token);
 
         // check if user is a tutor and
         // keep track of that in local storage as well
         // not yet tested on (real) users that are tutors
-        if ($scope.user.isTutor === true) {
+        if (data.isTutor) {
           $window.localStorage.setItem('isTutor', true);
           $rootScope.isTutor = true;
         } else {

@@ -44,16 +44,18 @@ angular.module('codellama.messages', [])
   };
 })
 .controller('MessagesController', function($scope, $window, $location, $rootScope, Conversations) {
-  $scope.convoList = [{user: 'Rane', recentMessage: 'dyv uh u oi hgyut io iuyf i'},{user: 'Liam', recentMessage: 'df wefwefo84htb 343984fw3 34 '}];
+  // $scope.convoList = [{user: 'Rane', recentMessage: 'dyv uh u oi hgyut io iuyf i'},{user: 'Liam', recentMessage: 'df wefwefo84htb 343984fw3 34 '}];
   $scope.chats = [];
   $scope.currentConversation = '';
 
   var init = function() {
     var isTutor = $window.localStorage.getItem('isTutor');
-    Conversations.getConversations(isTutor ? 'tutorList' : 'studentList')
+
+    Conversations.getConversations(isTutor === 'true' ? 'studentList' : 'tutorList')
       .then(function(data) {
-        if (data.allTutors.length > 0) {
-          $scope.convoList = data;
+        var listType = isTutor === 'true' ? 'allStudents' : 'allTutors';
+        if (data[listType].length > 0) {
+          $scope.convoList = data[listType];
         }
       });
   };
@@ -61,7 +63,7 @@ angular.module('codellama.messages', [])
   $scope.loadConversation = function() {
     $scope.chats = undefined;
     var username = $window.localStorage.getItem('username');
-    var clickedName = this.convo.user;
+    var clickedName = this.convo;
     var isTutor = $window.localStorage.getItem('isTutor');
     $scope.currentConversation = clickedName;
     Conversations.getMessages(username, clickedName, isTutor)

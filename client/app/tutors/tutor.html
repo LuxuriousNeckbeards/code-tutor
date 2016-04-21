@@ -18,7 +18,7 @@
       </tr>
       <tr>
         <td>
-          <a ng-href="mailto:{{tutor.email}}" target="_blank"><button type="submit" ng-disabled="!loggedIn" class="large-profile-button message" class="contact-tutor-button-large">Message tutor</button></a>
+          <button type="submit" ng-disabled="!loggedIn" class="large-profile-button message" ng-click="messageTutor(tutor.username)">Message tutor</button>
         </td>
       </tr>
       <tr>

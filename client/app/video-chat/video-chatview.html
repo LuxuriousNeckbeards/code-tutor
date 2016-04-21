@@ -1,5 +1,16 @@
 <div ng-controller="VideoChatController" style="height: 400px" >
-  <div class="col-md-8 text-editor" style="height: 400px; background-color: red">
+  <div class="col-md-8 editor-container">
+    <label>Select Language: </label>
+    <select ng-model="languageSelector" ng-change="setEditorLanguage(this)">
+      <option selected value="javascript">JavaScript</option>
+      <option value="ruby">Ruby</option>
+      <option value="python">Python</option>
+      <option value="java">Java</option>
+      <option value="objectivec">Objective-C</option>
+      <option value="haskell">Haskell</option>
+      <option value="swift">swift</option>
+    </select>
+    <div id="editor">// your code here!</div>
   </div>
   <div class="col-md-4 video" style="height: 400px; background-color: green">
   </div>

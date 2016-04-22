@@ -19,6 +19,22 @@ angular.module('codellama.video', [])
 
 })
 .controller('VideoChatController', ['$scope','VideoChat', function($scope, VideoChat) {
+
+  var socket = io.connect('http://10.6.30.233:8080/');
+  socket.on('connect', function(data) {
+    socket.emit('join', 'Hello World from client');
+  });
+
+  socket.on('updatedState', function(data) {
+    console.log(data);
+
+    console.log(localStorage.username, '--', data.user);
+    if (localStorage.username !== data.user) {
+      console.log(data.state);
+      // editor.setValue(data.state);
+    }
+  });
+
   /* Text Editor Session: */
   $scope.setEditorLanguage = function(selector) {
     editor.getSession().setMode('ace/mode/' + selector.languageSelector);
@@ -32,15 +48,29 @@ angular.module('codellama.video', [])
     }
   }
 
-  var editorState = {content: ''};
- 
+  var editorState = {
+    current: '',
+    last: '',
+    update: function(state) {
+      this.last = this.current;
+      this.current = state;
+    },
+    hasChanged: function() {
+      return this.current !== this.last;
+    },
+  };
+
   var editor = ace.edit("editor");
   editor.setTheme("ace/theme/monokai");
   editor.getSession().setMode("ace/mode/javascript");
   editor.getSession().setUseWrapMode(true);
   editor.getSession().setTabSize(2);
   editor.getSession().on('change', function(e) {
-    editorState.content = editor.getValue();
+    editorState.update(editor.getValue());
+
+    if (editorState.hasChanged()) {
+      socket.emit('updateEditor', {user: localStorage.username, newState: editor.getValue()});
+    }
   });
 
   /* Video Chat Session: */

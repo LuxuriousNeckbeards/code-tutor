@@ -15,6 +15,25 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/codeLlama');
 
 var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+
+var editorState;
+
+io.on('connection', function(socket) {
+    console.log('Client connected...');
+
+    socket.on('join', function(data) {
+        console.log(data);
+        socket.emit('messages', data);
+    });
+
+    socket.on('updateEditor', function(state) {
+      editorState = state.newState;
+      console.log(editorState);
+      socket.broadcast.emit('updatedState', {user: state.user, state: editorState});
+    });
+});
 
 /* Init OpenTok */
 var opentok = new OpenTok(keys.apiKey, keys.apiSecret);
@@ -28,7 +47,7 @@ opentok.createSession(function(err, session) {
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({limit: '5mb'}));
-app.use(methodOverride()); 
+app.use(methodOverride());
 
 //set up routes here from routes file
 require('./routes')(app, express, opentok);
@@ -37,6 +56,6 @@ const port = process.env.PORT || 8080;
 
 /* Wait to start the app until OpenTok is done setting up session */
 function init() {
-  app.listen(port);
+  server.listen(port);
   module.exports = app;
 }

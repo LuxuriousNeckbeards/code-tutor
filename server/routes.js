@@ -4,6 +4,7 @@ var helpers = require('./helpers.js'); // our custom middleware
 var path = require('path');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
+var keys = require('./apiKeys.js');
 
 var rootPath = path.join(__dirname, '..');
 
@@ -37,8 +38,8 @@ module.exports = function (app, express, opentok) {
     var sessionId = app.get('sessionId'),
         token = opentok.generateToken(sessionId);
 
-    res.render('index.ejs', { 
-      apiKey: apiKey, 
+    res.send({ 
+      apiKey: keys.apiKey, 
       sessionId: sessionId, 
       token: token 
     });

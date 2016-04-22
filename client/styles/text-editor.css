@@ -49,5 +49,5 @@ select {
 }
 
 .video > div {
-  margin: 40px;
+  margin: 30px auto 30px auto;
 }

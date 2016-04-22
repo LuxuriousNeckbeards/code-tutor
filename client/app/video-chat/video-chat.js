@@ -63,5 +63,10 @@ angular.module('codellama.video', [])
           session.publish('publisher');
         }
       });
+
+      /* End Video Chat Session: */
+      $scope.endVideoSession = function() {
+        session.disconnect();
+      };
   });
 }]);

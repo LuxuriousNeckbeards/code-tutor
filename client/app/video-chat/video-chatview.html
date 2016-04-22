@@ -1,19 +1,34 @@
-<div ng-controller="VideoChatController" style="height: 400px" >
+<div ng-controller="VideoChatController" class="outside-container">
+  <div class="col-md-12 controls">
+    <div class="col-md-6">
+      <!-- EDITOR CONTROLS -->
+      <label>Select Language: </label>
+      <select ng-model="languageSelector" ng-change="setEditorLanguage(this)">
+        <option selected value="javascript">JavaScript</option>
+        <option value="ruby">Ruby</option>
+        <option value="python">Python</option>
+        <option value="java">Java</option>
+        <option value="objectivec">Objective-C</option>
+        <option value="haskell">Haskell</option>
+        <option value="swift">swift</option>
+      </select>
+      <button type="submit" class="btn btn-primary btn-sm" ng-click="saveFileLocally()">Download this File</button>
+    </div>
+    <div class="col-md-6">
+
+    </div>
+  </div>
+
   <div class="col-md-8 editor-container">
-    <label>Select Language: </label>
-    <select ng-model="languageSelector" ng-change="setEditorLanguage(this)">
-      <option selected value="javascript">JavaScript</option>
-      <option value="ruby">Ruby</option>
-      <option value="python">Python</option>
-      <option value="java">Java</option>
-      <option value="objectivec">Objective-C</option>
-      <option value="haskell">Haskell</option>
-      <option value="swift">swift</option>
-    </select>
+    <!-- EDITOR -->
     <div id="editor">// your code here!</div>
   </div>
-  <div class="col-md-4 video" style="height: 400px;">
-    <div id="publisher"></div>
-    <div id="subscribers"></div>
+
+  <div class="col-md-4 video-container">
+    <div class="video">
+      <div id="publisher"></div>
+      <div id="subscribers"></div>
+      <h4 class="video-header">Live Coding Session</h4>
+    </div>
   </div>
 </div>

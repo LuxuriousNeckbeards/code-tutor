@@ -21,15 +21,6 @@
     <script src="//static.opentok.com/webrtc/v2.2/js/TB.min.js"></script>
   </head>
   <body>
-      <div ng-include src=" 'app/nav/nav.html' "></div>
-
-    <!-- App  -->
-    <div ng-include src="'app/search/searchBar.html'"></div>
-    <div ng-view></div>
-
-    <!-- Footer... -->
-    <div ng-include src="'app/footer/footer.html'"></div>
-
     <!-- javascript -->
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-route/angular-route.js"></script>
@@ -48,6 +39,16 @@
     <script src="ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="app/video-chat/video-chat.js"></script>
     <script src="app/app.js"></script>
+
+    <div ng-include src=" 'app/nav/nav.html' "></div>
+
+    <!-- App  -->
+    <div ng-include src="'app/search/searchBar.html'"></div>
+    <div ng-view></div>
+
+    <!-- Footer... -->
+    <div ng-include src="'app/footer/footer.html'"></div>
+
 <!--    <script type='text/javascript' id="__bs_script__">//<![CDATA[
     document.write("<script async src='//HOST:3000/browser-sync/browser-sync-client.1.9.2.js'><\/script>".replace(/HOST/g, location.hostname).replace(/PORT/g, location.port));
  //]]>

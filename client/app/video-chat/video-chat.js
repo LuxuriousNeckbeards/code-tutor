@@ -20,7 +20,7 @@ angular.module('codellama.video', [])
 })
 .controller('VideoChatController', ['$scope','VideoChat', function($scope, VideoChat) {
 
-  var socket = io.connect('http://10.6.31.195:8080/');
+  var socket = io.connect('http://localhost:8080/');
   socket.on('connect', function(data) {
     socket.emit('join', 'Hello World from client');
   });
@@ -88,7 +88,7 @@ angular.module('codellama.video', [])
     var session = OT.initSession(apiKey, sessionId);
       session.on({
           streamCreated: function(event) {
-            session.subscribe(event.stream, 'subscribers');
+            session.subscribe(event.stream, 'subscribers', {height: 300, width: 300});
           }
       });
       session.connect(token, function(error) {

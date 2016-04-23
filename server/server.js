@@ -24,14 +24,11 @@ io.on('connection', function(socket) {
     console.log('Client connected...');
 
     socket.on('join', function(data) {
-        console.log(data);
         socket.emit('messages', data);
     });
 
     socket.on('updateEditor', function(state) {
       editorState = state.newState;
-      console.log(editorState);
-      socket.broadcast.emit('updatedState', {user: state.user, state: editorState});
     });
 
     socket.on('joinChat', function(data) {
@@ -40,7 +37,6 @@ io.on('connection', function(socket) {
     });
 
     socket.on('chat', function(data) {
-      console.log('Chat Socket Listened: ', data.username, data.messageBody);
       socket.broadcast.emit('updatedChat', {username: data.username, messageBody: data.messageBody});
     });
 });
@@ -52,7 +48,7 @@ io.on('connection', function(socket) {
 //   var messageBody = req.body;
 //   console.log('reqBody in socketConfig>>', req.body);
 //   io.on('connection', function (socket) {
-//     socket.emit('addMessage', messageBody); 
+//     socket.emit('addMessage', messageBody);
 
 
 

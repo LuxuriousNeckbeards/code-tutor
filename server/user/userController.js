@@ -42,11 +42,10 @@ module.exports = {
   search: function (req, res, next) {
     var city = req.query.city ? req.query.city.toLowerCase() : null;
     var subjectsArr = req.query.subjects ? req.query.subjects.toLowerCase().split(/\W+/) : null;
-
+    var userType = req.query.userType;
     var requirements = {
-      isTutor: true,
+      isTutor: userType === 'tutors',
     };
-
     if (subjectsArr) { requirements.subjects = {$in: subjectsArr}; }
     if (city) { requirements['location.city'] = city; }
 
@@ -78,6 +77,7 @@ module.exports = {
   saveProfile: function(req, res) {
     // helpers.decode gives us the username from the token on this request
     var update = function(req, res) {
+      console.log("UPDATE REQ BODY", req.body)
       if (req.body.subjects) { req.body.subjects = req.body.subjects.join(',').toLowerCase().split(/\W+/); }
       if (req.body.location.city) { req.body.location.city = req.body.location.city.toLowerCase(); }
       updateUser({username: req.user.username}, req.body, {new: true}, function(err, doc) {

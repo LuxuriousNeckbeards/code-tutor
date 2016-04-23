@@ -175,10 +175,10 @@ h1 {
 
 .searchButton {
   position: relative;
-  width: 40%;
+  width: 30%;
   height: 45px;
   display: inline;
-  margin: 0;
+  margin: 0 10 0 10;
   color: white;
   background-color: #F89406;
   border: none;

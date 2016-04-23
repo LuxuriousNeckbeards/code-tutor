@@ -45,14 +45,14 @@ angular.module('codellama.messages', [])
   $scope.currentConversation = '';
   $rootScope.chats = [];
 
-  var socket = io.connect('http://localhost:8080/');
+  var socket = io.connect('http://10.6.31.195:8080/');
   socket.on('connect', function(data) {
     socket.emit('joinChat', 'Hello World from chat client');
   });
 
   socket.on('updatedChat', function(data) {
     $rootScope.$apply(function() {
-      if ($rootScope.chats[0].messageBody !== data.messageBody) {
+      if ($rootScope.chats.length < 1 ||$rootScope.chats[0].messageBody !== data.messageBody) {
         $rootScope.chats.unshift(data);
       }
     });
@@ -69,7 +69,7 @@ angular.module('codellama.messages', [])
         }
       });
   };
-  
+
   $scope.loadConversation = function() {
     var username = $window.localStorage.getItem('username');
     var clickedName = this.convo;

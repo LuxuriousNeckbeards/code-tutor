@@ -6,7 +6,7 @@ angular.module('codellama.search', [])
     // initialize empty tutor data array that will hold search results
     this.tutorData = [];
 
-    this.getTutors = function(city, subjects) {
+    this.getTutors = function(city, subjects, userType) {
       // parsing the strings will be handled sever-side
 
       return $http({
@@ -14,7 +14,8 @@ angular.module('codellama.search', [])
         url: '/api/users/search',
         params: {
           city: city,
-          subjects: subjects
+          subjects: subjects,
+          userType: userType
         }
       })
       .then(function (resp) {
@@ -43,11 +44,12 @@ angular.module('codellama.search', [])
       return '/' === $location.path();
     };
 
+
     // define search on scope
-    $scope.search = function(city, subjects) {
+    $scope.search = function(city, subjects, userType) {
 
       // call function from SearchService
-      SearchService.getTutors(city, subjects)
+      SearchService.getTutors(city, subjects, userType)
 
         // upon success, assign returned tutors data to scope's tutorData
         .then(function(tutors) {
@@ -61,7 +63,7 @@ angular.module('codellama.search', [])
         });
     };
 
-    
+
   })
 
   .controller('SearchResultsController', function ($scope, $location, SearchService) {

@@ -20,19 +20,9 @@ angular.module('codellama.video', [])
 })
 .controller('VideoChatController', ['$scope','VideoChat', function($scope, VideoChat) {
 
-  var socket = io.connect('http://10.6.30.233:8080/');
+  var socket = io.connect('http://10.6.31.195:8080/');
   socket.on('connect', function(data) {
     socket.emit('join', 'Hello World from client');
-  });
-
-  socket.on('updatedState', function(data) {
-    console.log('DATA object: ', data);
-    console.log('STATE: ', data.state);
-
-    // console.log(localStorage.username, '--', data.user);
-    if (localStorage.username !== data.user) {
-      editor.setValue(data.state);
-    }
   });
 
   /* Text Editor Session: */
@@ -46,7 +36,7 @@ angular.module('codellama.video', [])
       var blob = new Blob([editor.getValue()], {type: "text/plain;charset=utf-8"});
       saveAs(blob, filename);
     }
-  }
+  };
 
   var editorState = {
     current: '',
@@ -60,17 +50,30 @@ angular.module('codellama.video', [])
     },
   };
 
+  socket.on('updatedState', function(data) {
+    editorState.update(data.state);
+    if (localStorage.username !== data.user && editorState.hasChanged()) {
+      editor.setValue(data.state);
+      var row = editor.session.getLength() - 1;
+      var column = editor.session.getLine(row).length;
+      editor.gotoLine(row + 1, column);
+    }
+  });
+
+
   var editor = ace.edit("editor");
   editor.setTheme("ace/theme/monokai");
   editor.getSession().setMode("ace/mode/javascript");
   editor.getSession().setUseWrapMode(true);
   editor.getSession().setTabSize(2);
-  editor.getSession().on('change', function(e) {
-    editorState.update(editor.getValue());
 
-    if (editorState.hasChanged()) {
-      socket.emit('updateEditor', {user: localStorage.username, newState: editor.getValue()});
-    }
+  editor.getSession().on('change', function(e) {
+    setTimeout(function() {
+      editorState.update(editor.getValue());
+      if (editorState.hasChanged()) {
+        socket.emit('updateEditor', {user: localStorage.username, newState: editor.getValue()});
+      }
+    }, 100);
   });
 
   /* Video Chat Session: */

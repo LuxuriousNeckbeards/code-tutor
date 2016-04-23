@@ -6,31 +6,14 @@
     </div>
 
     <div class="buttons-container-large-profile">
-    <table>
-      <tr>
-        <td>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="large-profile-button blue">Username: {{ tutor.username }}</span>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button ng-hide="isOwnProfile(tutor.username)" type="submit" ng-disabled="!loggedIn" class="large-profile-button message" ng-click="messageTutor(tutor.username)">Message tutor</button>
-          <button ng-show="isOwnProfile(tutor.username)" type="submit" ng-disabled="!loggedIn" class="large-profile-button message" ng-click="updateProfile()">Update Profile</button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button type="submit" ng-disabled="!loggedIn" class="large-profile-button likes" ng-click="likeTutor(tutor.username)">Likes: {{tutor.likes || 0}}</button>
-        </td>
-      </tr>
-    </table>
+   
+      <button type="submit" ng-disabled="!loggedIn" class="large-profile-button likes" ng-click="likeTutor(tutor.username)">Likes: {{tutor.likes || 0}}</button>
+      <span class="large-profile-button blue">Username: {{ tutor.username }}</span>
+ 
+      <button ng-hide="isOwnProfile(tutor.username)" type="submit" ng-disabled="!loggedIn" class="large-profile-button message" ng-click="messageTutor(tutor.username)">Message tutor</button>
+      <button ng-show="isOwnProfile(tutor.username)" type="submit" ng-disabled="!loggedIn" class="large-profile-button message" ng-click="updateProfile()">Update Profile</button>
+  
     </div>
-
-
     <div class="profile-content-large">
       <div class="profile-text"><span class="tutor-name">{{tutor.name}}</span></div>
       <div class="profile-text">

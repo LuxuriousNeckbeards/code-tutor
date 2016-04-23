@@ -74,6 +74,8 @@ angular.module('codellama.video', [])
   });
 
   /* Video Chat Session: */
+  $scope.hidePublisher = true;
+  
   VideoChat.getSessionInfo()
   .then(function(data) {
     var apiKey = data.data.apiKey,
@@ -83,7 +85,7 @@ angular.module('codellama.video', [])
     var session = OT.initSession(apiKey, sessionId);
       session.on({
           streamCreated: function(event) {
-            session.subscribe(event.stream, 'subscribers', {insertMode: 'append'});
+            session.subscribe(event.stream, 'subscribers');
           }
       });
       session.connect(token, function(error) {

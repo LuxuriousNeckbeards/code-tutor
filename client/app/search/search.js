@@ -40,8 +40,6 @@ angular.module('codellama.search', [])
 
     // show search bar when in root path
     $scope.isActive = function () {
-      console.log('location path', $location.path());
-      console.log('/' === $location.path());
       return '/' === $location.path();
     };
 
@@ -72,9 +70,7 @@ angular.module('codellama.search', [])
     $scope.tutor.likes = 0;
 
     $scope.clicked = function() {
-      console.log('clicked');
       $scope.tutor.likes++;
-      console.log('$scope.tutor.likes is', $scope.tutor.likes);
     };
 
     $scope.$watch(
@@ -86,8 +82,6 @@ angular.module('codellama.search', [])
       }
     );
 
-    // console.log(SearchService.tutorData);
-    // console.log('$search results scope.tutorData:', $scope.tutorData);
     $scope.messageTutor = function(tutorName) {
       SearchService.messageTutor(tutorName)
       .then(function(resp) {

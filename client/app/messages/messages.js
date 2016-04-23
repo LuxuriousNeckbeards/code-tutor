@@ -35,17 +35,33 @@ angular.module('codellama.messages', [])
     });
   };
 
+  var removeConversation = function(clickedName, isTutor) {
+    return $http({
+      method: 'PUT',
+      url: '/api/removeFromList',
+      data: {
+        clickedName: clickedName,
+        isTutor: isTutor
+      }
+    }).then(function(data) {
+      return data.data;
+    }, function(err) {
+      console.error(err);
+    });
+  };
+
   return {
     getMessages: getMessages,
     createMessage: createMessage,
     getConversations: getConversations,
+    removeConversation: removeConversation
   };
 })
 .controller('MessagesController', function($scope, $rootScope, $window, Conversations) {
   $scope.currentConversation = '';
   $rootScope.chats = [];
 
-  var socket = io.connect('http://localhost:8080/');
+  var socket = io.connect('http://10.6.30.207:8080/');
   socket.on('connect', function(data) {
     socket.emit('joinChat', 'Hello World from chat client');
   });
@@ -99,6 +115,20 @@ angular.module('codellama.messages', [])
       Conversations.createMessage(JSON.stringify(messageObj));
     }
     $scope.newMessage = '';
+  };
+
+  $scope.removeConversation = function() {
+    var clickedName = this.convo;
+    var isTutor = $window.localStorage.getItem('isTutor');
+    Conversations.removeConversation(clickedName, isTutor)
+      .then(function(data) {
+        $scope.convoList = [];
+
+        /* Reset view to initial empty view: */
+        init();
+        $rootScope.chats = [];
+        $scope.currentConversation = '';
+      });
   };
 
   init();

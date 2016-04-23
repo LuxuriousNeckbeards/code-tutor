@@ -31,6 +31,8 @@ module.exports = function (app, express, opentok) {
   app.put('/api/tutorlist', helpers.decode, userController.addTutorToList);
   app.put('/api/studentlist', helpers.decode, userController.addStudentToList);
 
+  app.put('/api/removeFromList', helpers.decode, userController.removeFromList);
+
   app.put('/api/messages', messageController.addMessage);
   app.get('/api/messages/:username/:clickedName/:isTutor', messageController.getAllMessages);
 

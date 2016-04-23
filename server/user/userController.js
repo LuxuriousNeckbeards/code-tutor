@@ -284,5 +284,45 @@ module.exports = {
     .fail(function(error) {
       next(error);
     });
-  }
+  },
+
+  removeFromList: function(req, res, next) {
+    if (req.body.isTutor === 'true') {
+      module.exports.removeFromStudentsList(req.user.username, req.body.clickedName, res);
+    } else {
+      module.exports.removeFromTutorsList(req.user.username, req.body.clickedName, res);
+    }
+  },
+
+  removeFromStudentsList: function(username, studentUsername, res) {
+    findUser({ username: username })
+      .then(function(user) {
+        updateUser({ username: username }, { $pull: {students: studentUsername} }, {new: true})
+          .then(function(updatedList) {
+            res.status(200).send({ students: updatedList.students });
+          })
+          .fail(function(err) {
+            res.status(500).send(err);
+          });
+      })
+      .fail(function(err) {
+        console.error(err);
+      });
+  },
+
+  removeFromTutorsList: function(username, tutorUsername, res) {
+    findUser({ username: username })
+      .then(function(user) {
+        updateUser({ username: username }, { $pull: {tutors: tutorUsername} }, {new: true})
+          .then(function(updatedList) {
+            res.status(200).send({ tutors: updatedList.tutors });
+          })
+          .fail(function(err) {
+            res.status(500).send(err);
+          });
+      })
+      .fail(function(err) {
+        next(err);
+      });
+  },
 };

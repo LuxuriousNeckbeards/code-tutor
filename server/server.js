@@ -33,7 +33,35 @@ io.on('connection', function(socket) {
       console.log(editorState);
       socket.broadcast.emit('updatedState', {user: state.user, state: editorState});
     });
+
+    socket.on('joinChat', function(data) {
+        console.log('Chat client connected: ', data);
+        //socket.emit('messages', data);
+    });
+
+    socket.on('chat', function(data) {
+      console.log('Chat Socket Listened: ', data.username, data.messageBody);
+      socket.broadcast.emit('updatedChat', {username: data.username, messageBody: data.messageBody});
+    });
 });
+
+
+// var socketConfig = function(req, res, next) {
+//     //io.emit only if it requires to display to all users
+//     //io.emit('this', { will: 'be received by everyone'});
+//   var messageBody = req.body;
+//   console.log('reqBody in socketConfig>>', req.body);
+//   io.on('connection', function (socket) {
+//     socket.emit('addMessage', messageBody); 
+
+
+
+//   });
+
+//   // catch (error) {
+//   //     return next(error);
+//   next();
+// };
 
 /* Init OpenTok */
 var opentok = new OpenTok(keys.apiKey, keys.apiSecret);

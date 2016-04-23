@@ -26,12 +26,12 @@ angular.module('codellama.video', [])
   });
 
   socket.on('updatedState', function(data) {
-    console.log(data);
+    console.log('DATA object: ', data);
+    console.log('STATE: ', data.state);
 
-    console.log(localStorage.username, '--', data.user);
+    // console.log(localStorage.username, '--', data.user);
     if (localStorage.username !== data.user) {
-      console.log(data.state);
-      // editor.setValue(data.state);
+      editor.setValue(data.state);
     }
   });
 
@@ -75,7 +75,7 @@ angular.module('codellama.video', [])
 
   /* Video Chat Session: */
   $scope.hidePublisher = true;
-  
+
   VideoChat.getSessionInfo()
   .then(function(data) {
     var apiKey = data.data.apiKey,

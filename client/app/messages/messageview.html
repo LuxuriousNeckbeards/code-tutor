@@ -2,8 +2,13 @@
 
   <div class="col-md-4 messages-left">
     <h3>Conversations</h3>
-    <div ng-repeat="convo in convoList" class="convo" ng-click="loadConversation()">
-      <h4>{{convo}}</h4>
+    <div ng-repeat="convo in convoList" >
+      <div class="convo col-sm-1" style="width: 80%;" ng-click="loadConversation()">
+        <h4>{{convo}}</h4>
+      </div>
+      <div style="width: 20%; float: right;">
+        <button style="padding:16px; background-color:#F89406; border:none;" ng-click="removeConversation()"><h4>X</h4></button>
+      </div>
     </div>
   </div>
 
@@ -22,7 +27,7 @@
       <div ng-class="getClass($index, chats)">
         <span class="chat-name">{{msg.username}}:</span>
 
-        <p>{{msg.messageBody}}</p>
+        <p style="font-size:20px">{{msg.messageBody}}</p>
       </div>
     </div>
   </div>

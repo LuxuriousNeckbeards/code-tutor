@@ -7,7 +7,7 @@
     <li ng-class="{ active: isActive('/signup')}" ng-hide='loggedIn'><a href='/#/signup'>Signup</a></li>
     <li ng-class="{ active: isActive('/users')}" ng-show='loggedIn'><a ng-href='/#/users/{{username}}'>My Profile</a></li>
     <li ng-class="{ active: isActive('/messages')}" ng-show='loggedIn'><a href='/#/messages'>My Messages</a></li>
-    <li ng-show='loggedIn'><a href="/logout">Logout</a></li>
+    <li ng-show='loggedIn'><a href="/logout">Logout {{username}}</a></li>
   </ul>
 </div>
 </div>

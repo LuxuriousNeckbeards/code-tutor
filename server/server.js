@@ -29,6 +29,7 @@ io.on('connection', function(socket) {
 
     socket.on('updateEditor', function(state) {
       editorState = state.newState;
+      socket.broadcast.emit('updatedState', {user: state.user, state: editorState});
     });
 
     socket.on('joinChat', function(data) {

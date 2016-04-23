@@ -20,7 +20,7 @@ angular.module('codellama.video', [])
 })
 .controller('VideoChatController', ['$scope','VideoChat', function($scope, VideoChat) {
 
-  var socket = io.connect('http://localhost:8080/');
+  var socket = io.connect('http://10.6.30.207:8080/');
   socket.on('connect', function(data) {
     socket.emit('join', 'Hello World from client');
   });

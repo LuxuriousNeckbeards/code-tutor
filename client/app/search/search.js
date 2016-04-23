@@ -25,6 +25,13 @@ angular.module('codellama.search', [])
 
   .controller('SearchController', function ($scope, SearchService, $location) {
 
+    // show search bar when in root path
+    $scope.isActive = function () {
+      console.log('location path', $location.path());
+      console.log('/' === $location.path());
+      return '/' === $location.path();
+    };
+
     // define search on scope
     $scope.search = function(city, subjects) {
 

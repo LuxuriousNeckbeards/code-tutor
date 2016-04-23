@@ -45,8 +45,50 @@ angular.module('codellama.messages', [])
 })
 .controller('MessagesController', function($scope, $window, Conversations) {
   // $scope.convoList = [{user: 'Rane', recentMessage: 'dyv uh u oi hgyut io iuyf i'},{user: 'Liam', recentMessage: 'df wefwefo84htb 343984fw3 34 '}];
-  $scope.chats = [];
+  // $scope.chats = [];
   $scope.currentConversation = '';
+  $scope.chats = [];
+
+  var updateChats = function(data) {
+    // if ($scope.chats.length === 0) {
+    //   $scope.$apply(function() {
+    //     console.log('works first');
+    //     $scope.chats.push(data);
+    //   });
+    //   $scope.chats = data;
+    // } else {
+      $scope.$apply(function() {
+        console.log('works second', $scope.chats);
+        $scope.chats.unshift(data.messageBody);
+      });
+    // }
+  };
+
+  $scope.loadConversation = function() {
+    var username = $window.localStorage.getItem('username');
+    var clickedName = this.convo;
+    var isTutor = $window.localStorage.getItem('isTutor');
+    $scope.currentConversation = clickedName;
+    Conversations.getMessages(username, clickedName, isTutor)
+      .then(function(data) {
+        if (data[0]) {
+          // updateChats(data[0].messages.reverse());
+          $scope.chats = data[0].messages.reverse();
+        }
+      });
+  };
+
+  var socket = io.connect('http://localhost:8080/');
+
+  socket.on('connect', function(data) {
+    socket.emit('joinChat', 'Hello World from chat client');
+  });
+
+  socket.on('updatedChat', function(data) {
+    console.log('Client in scope.send, received data: ', data);
+    updateChats(data);
+  });
+
 
   var init = function() {
     var isTutor = $window.localStorage.getItem('isTutor');
@@ -60,19 +102,7 @@ angular.module('codellama.messages', [])
       });
   };
 
-  $scope.loadConversation = function() {
-    $scope.chats = undefined;
-    var username = $window.localStorage.getItem('username');
-    var clickedName = this.convo;
-    var isTutor = $window.localStorage.getItem('isTutor');
-    $scope.currentConversation = clickedName;
-    Conversations.getMessages(username, clickedName, isTutor)
-      .then(function(data) {
-        if (data[0]) {
-          $scope.chats = data[0].messages.reverse();
-        }
-      });
-  };
+  
 
   $scope.send = function() {
     var messageObj = {
@@ -82,17 +112,22 @@ angular.module('codellama.messages', [])
       messageBody: $scope.newMessage,
     };
     if (messageObj.clickedName && messageObj.messageBody) {
+      // Socket Emit:
+      socket.emit('chat', {username: messageObj.username, messageBody: messageObj.messageBody});
+      
+
       Conversations.createMessage(JSON.stringify(messageObj));
 
       // TODO: use sockets instead of this
-      Conversations.getMessages(messageObj.username, messageObj.clickedName, messageObj.isTutor)
-      .then(function(data) {
-        if (data[0]) {
-          $scope.chats = data[0].messages.reverse();
-        }
-      });
+      // Conversations.getMessages(messageObj.username, messageObj.clickedName, messageObj.isTutor)
+      // .then(function(data) {
+      //   if (data[0]) {
+      //     $scope.chats = data[0].messages.reverse();
+      //   }
+      // });
     }
     $scope.newMessage = '';
+    
   };
   init();
 });

@@ -39,7 +39,7 @@ angular.module('codellama.tutor', [])
     };
   })
 
-  .controller('TutorController', function ($scope, TutorService, $routeParams, $location) {
+  .controller('TutorController', function ($scope, TutorService, $routeParams, $location, $window) {
     TutorService.getTutorProfile($routeParams.username)
     .then(function(data) {
       TutorService.tutorData = data;
@@ -75,6 +75,15 @@ angular.module('codellama.tutor', [])
         $scope.tutor = newVal;
       }
     );
+
+    $scope.isOwnProfile = function(tutorName) {
+      var username = $window.localStorage.getItem('username');
+      return tutorName === username;
+    };
+
+    $scope.updateProfile = function() {
+      $location.path('/update');
+    };
   });
 
 

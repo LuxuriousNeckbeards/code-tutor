@@ -1,12 +1,13 @@
 <!-- Search bar -->
-<div id="container-search">
-  <div id="searchBar" ng-controller="SearchController">       
-      <form id="search" name="search-input" ng-submit="search(search.city,search.subjects)">
-          <input name="search[city]" type="text" placeholder="Enter city" class="input pass" ng-model="search.city">
-          <input name="search[subjects]" type="text" placeholder="Enter subjects (E.g. Angular React)" class="input pass" ng-model="search.subjects">
-        <button type="submit" class="inputButton searchButton">Find tutors</button>
-      </form>
+<div ng-controller="SearchController"> 
+  <div ng-show="isActive()" id="container-search">
+    <div id="searchBar">       
+        <form id="search" name="search-input" ng-submit="search(search.city,search.subjects)">
+            <input name="search[city]" type="text" placeholder="Enter city" class="input pass" ng-model="search.city">
+            <input name="search[subjects]" type="text" placeholder="Enter subjects (E.g. Angular React)" class="input pass" ng-model="search.subjects">
+          <button type="submit" class="inputButton searchButton">Find tutors</button>
+        </form>
+    </div>
   </div>
+  <div ng-hide="isActive()" style="height: 100px; background-color: #E4F1FE"></div>
 </div>
-
-

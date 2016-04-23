@@ -18,8 +18,6 @@ angular.module('codellama.messages', [])
       url: 'api/messages',
       data: message,
     }).then(function(data){
-      console.log('create message client side response ', data.data);
-
       return data.data;
     }, function(err) {
       console.error(err);
@@ -53,10 +51,10 @@ angular.module('codellama.messages', [])
   });
 
   socket.on('updatedChat', function(data) {
-    console.log('Client in scope.send, received data: ', data);
     $rootScope.$apply(function() {
-      console.log('works second', $rootScope.chats);
-      $rootScope.chats.unshift(data);
+      if ($rootScope.chats[0].messageBody !== data.messageBody) {
+        $rootScope.chats.unshift(data);
+      }
     });
   });
 
@@ -80,9 +78,7 @@ angular.module('codellama.messages', [])
     Conversations.getMessages(username, clickedName, isTutor)
       .then(function(data) {
         if (data[0]) {
-          // updateChats(data[0].messages.reverse());
           $rootScope.chats = data[0].messages.reverse();
-          console.log('load convo scope chats', $scope.chats);
         }
       });
   };

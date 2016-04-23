@@ -18,7 +18,8 @@
       </tr>
       <tr>
         <td>
-          <button type="submit" ng-disabled="!loggedIn" class="large-profile-button message" ng-click="messageTutor(tutor.username)">Message tutor</button>
+          <button ng-hide="isOwnProfile(tutor.username)" type="submit" ng-disabled="!loggedIn" class="large-profile-button message" ng-click="messageTutor(tutor.username)">Message tutor</button>
+          <button ng-show="isOwnProfile(tutor.username)" type="submit" ng-disabled="!loggedIn" class="large-profile-button message" ng-click="updateProfile()">Update Profile</button>
         </td>
       </tr>
       <tr>

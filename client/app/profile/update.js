@@ -5,6 +5,7 @@ app.controller('uploadCtrl', ['$scope', 'Upload', '$timeout', '$location', '$win
   $scope.data = {};
   $scope.data.subjects = [];
   $scope.data.location = {};
+  $scope.data.isTutor = false;
 
   $scope.subjects = [
     'Javascript',
@@ -42,7 +43,7 @@ app.controller('uploadCtrl', ['$scope', 'Upload', '$timeout', '$location', '$win
     // $scope.data.isTutor = $scope.data.isTutor || true;
 
     if (!file) { var file = {}; } else {  $scope.data.file = file;  }
-
+    console.log("UPDATE CTRL DATA", $scope.data);
     file.upload = Upload.upload({
       url: 'api/users/profile',
       data: $scope.data

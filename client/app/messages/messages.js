@@ -45,7 +45,7 @@ angular.module('codellama.messages', [])
   $scope.currentConversation = '';
   $rootScope.chats = [];
 
-  var socket = io.connect('http://localhost:8080/');
+  var socket = io.connect('http://159.203.209.83/:8080/');
   socket.on('connect', function(data) {
     socket.emit('joinChat', 'Hello World from chat client');
   });
@@ -69,7 +69,7 @@ angular.module('codellama.messages', [])
         }
       });
   };
-  
+
   $scope.loadConversation = function() {
     var username = $window.localStorage.getItem('username');
     var clickedName = this.convo;
